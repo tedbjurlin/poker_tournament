@@ -1,0 +1,68 @@
+------------------------------ Game Initialization -----------------------------
+
+These messages are sent in this order when a game is started.
+
+("game start"): Game has started.
+
+("remaining", n: int): The number of players left for the game to end. If n or less players
+remain after a hand, the game will end. 
+
+----------------------------------- Betting ------------------------------------
+
+These are the possible messages that could be sent when a player bets, depending on what they choose.
+
+("fold", player_name: str) The player named player_name has folded.
+
+("check or call", player_name: str, amount: int) The player named player_name has checked or called.
+The amount is either the amount that they called at, or 0 if they checked.
+
+("all in", player_name: str, amount: int) The player named player_name has gone all in. The amount
+is the amount of money they bet.
+
+("raise", player_name: str, amount: int) The player named player_name has raised. The amount is
+the amount that they raised to, not raised by.
+
+-------------------------------- Playing a hand ( in order ) -------------------
+
+These are the messages sent while a hand is being played, in order.
+
+("hand", n: int): The first message each hand. n is the hand number, starting at
+1 for the first hand.
+
+("players", player_names: list): The list of player names, in order of play. If
+a player was eliminated in the previous round, they will no longer be in the list
+
+("stacks", stacks: list): The amount each player is starting with, in order of play.
+
+("blind amounts", small_blind: int, big_blind: int): The blind amounts for this hand.
+
+("blind players", small_blind_name: str, big_blind_name: str): The names of
+the players that are the small and big blinds.
+
+("hole cards", cards: list): Each player will recieve this message with their hole cards.
+
+First round of betting. See "Betting".
+
+("flop", flop_cards: list) The cards in the flop.
+
+Second round of betting.
+
+("turn", turn_card: Card) The turn card.
+
+Third round of betting.
+
+("river", river_card: Card) The river card.
+
+Final round of betting.
+
+("reveal", revealed_cards: list) The list of each players hole cards in order of play.
+
+("winnings", winnings: list) The list of the amount each player won from the pot in order of play.
+
+----------------------------- Game End ( in order ) ----------------------------
+
+These are the messages sent when the game ends, in order.
+
+("game end")
+
+("winners", remaining_players: list) The names of the remaining players at the end of the game.
