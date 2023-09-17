@@ -12,12 +12,22 @@ from pokerkit import (
 class Game:
 
     def __init__(self, players: list, stacks, remaining_at_end):
+        # The list of Player objects currently in the game.
         self.players = players
+        
+        # The names of the players currently in the game.
         self.names = [p.name for p in self.players]
+        
+        # The amount of money each player has.
         self.stacks = stacks
+        
+        # The number of players that have to be left to end the game.
         self.remaining_at_end = remaining_at_end
+        
+        # The hand number.
         self.hand_n = 1
         
+        # The blind structure. The blind will increase every five hands.
         self.blinds = [
             (25, 50),
             (50, 100),
@@ -40,10 +50,13 @@ class Game:
         self.general_update(("game start"))
         self.general_update(("remaining", self.remaining_at_end))     
             
+    # This function sends the given message to every player in the game.
     def general_update(self, message):
         for player in players:
             player.update(message)
             
+    # Runs a single round of betting. The state is the current game state and
+    # the street_index indicates which round of betting it is.
     def run_bets(self, state, street_index):
         while state.street_index == street_index:
             move = self.players[state.actor_index].make_move()
@@ -53,7 +66,7 @@ class Game:
                     state.complete_bet_or_raise_to(move)
                     
                 else:
-                    self.general_update(("check or call", self.names[state.actor_index], state.checking_or_calling_amount))
+                    self.general_update(("check or call", self.names[state.actor_index], max(state.bets)))
                     state.check_or_call()
 
             elif move == Move.ALLIN:
@@ -64,7 +77,7 @@ class Game:
                     state.check_or_call()
                 
             elif move == Move.CHECKORCALL:
-                self.general_update(("check or call", self.names[state.actor_index], state.checking_or_calling_amount))
+                self.general_update(("check or call", self.names[state.actor_index], max(state.bets)))
                 state.check_or_call()
                 
             elif move == Move.FOLD:
@@ -72,7 +85,7 @@ class Game:
                     self.general_update(("fold", self.names[state.actor_index]))
                     state.fold()
                 else:
-                    self.general_update(("check or call", self.names[state.actor_index], state.checking_or_calling_amount))
+                    self.general_update(("check or call", self.names[state.actor_index], max(state.bets)))
                     state.check_or_call()
                 
             else:
@@ -80,13 +93,15 @@ class Game:
                     self.general_update(("fold", self.names[state.actor_index]))
                     state.fold()
                 else:
-                    self.general_update(("check or call", self.names[state.actor_index], state.checking_or_calling_amount))
+                    self.general_update(("check or call", self.names[state.actor_index], max(state.bets)))
                     state.check_or_call()
         
+    # Runs a full game (or table) of poker, until the given win condition is met.
     def play_game(self):
         while len(self.players) > self.remaining_at_end:
             self.play_hand()
             
+            # removing any players that went out
             to_remove = []
             for i in range(len(self.stacks)):
                 if self.stacks[i] <= 0:
@@ -104,9 +119,10 @@ class Game:
         self.general_update(("game end"))
         self.general_update(("winners", self.names.copy()))
     
+    # Plays a single hand of poker, including setup, betting, and money distribution.
     def play_hand(self):
-        print(self.stacks)
         
+        # creating the pokerkit state for this hand
         state = NoLimitTexasHoldem.create_state(
             (
                 Automation.ANTE_POSTING,
@@ -124,10 +140,12 @@ class Game:
             len(self.players)
         )
         
+        # setting blinds
         blinds = []
         for index in state.blind_or_straddle_poster_indices:
             blinds.append(state.post_blind_or_straddle(index))
         
+        # dealing hole cards
         hole_cards = [[] for _ in self.players]
         while state.can_deal_hole():
             hole = state.deal_hole()
@@ -136,6 +154,8 @@ class Game:
         small_blind_player = ""
         big_blind_player = ""
         
+        # getting names of blind players, accounting for the differences when
+        # are only two players left
         if blinds[0].amount < blinds[1].amount:
             small_blind_player = self.names[blinds[0].player_index]
             big_blind_player = self.names[blinds[1].player_index]
@@ -143,6 +163,7 @@ class Game:
             small_blind_player = self.names[blinds[1].player_index]
             big_blind_player = self.names[blinds[0].player_index]
         
+        # notifying players of how the game has been set up
         for i in range(len(players)):
             players[i].update(("hand", self.hand_n))
             players[i].update(("players", self.names.copy()))
@@ -150,56 +171,59 @@ class Game:
             players[i].update(("blind amounts", self.blinds[self.hand_n // 5][0], self.blinds[self.hand_n // 5][1]))
             players[i].update(("blind players", small_blind_player, big_blind_player))
             players[i].update(("hole cards", [Card.from_pokerkit(hole_cards[i][0]), Card.from_pokerkit(hole_cards[i][1])]))
-                
+        
+        # pre-flop bets
         self.run_bets(state, 0)
         
-        print(state.stacks)
         
         try:
+            # flop dealing
             self.general_update(("flop", [
                 Card.from_pokerkit(state.board_cards[0]),
                 Card.from_pokerkit(state.board_cards[1]),
                 Card.from_pokerkit(state.board_cards[2])]))
             
+            # second round of bets
             self.run_bets(state, 1)
         except IndexError:
             pass
         
-        print(state.stacks)
-        
         try:
+            # turn dealing
             self.general_update(("turn", Card.from_pokerkit(state.board_cards[3])))
             
+            # third round of bets
             self.run_bets(state, 2)
         except IndexError:
             pass
         
-        print(state.stacks)
-        
         try:
+            # river dealing
             self.general_update(("river", Card.from_pokerkit(state.board_cards[4])))
             
+            # final round of bets
             self.run_bets(state, 3)
         except IndexError:
             pass
         
-        print(state.stacks)
-        
+        # the cards each player had
+        # in tournament play, some losing players would often toss their cards
+        # without revealing them. However, I thouth it would be more interesting if all
+        # of the cards were revealed after every hand, even folds.
         self.general_update(("reveal", [[Card.from_pokerkit(card) for card in hole] for hole in hole_cards]))
         
+        # dividing pot
         winnings = list(state.push_chips().amounts)
-        print(winnings)
         self.general_update(("winnings", winnings))
         while any(state.chips_pulling_statuses):
             state.pull_chips()
-        
-        print(state.stacks)
                             
         self.hand_n += 1
 
         self.stacks = state.stacks.copy()
 
 # dynamic import code from https://stackoverflow.com/questions/57878744/how-do-i-dynamically-import-all-py-files-from-a-given-directory-and-all-sub-di
+# ignore the next three funtions
 
 def get_py_files(src):
     cwd = os.getcwd() # Current Working directory
@@ -229,7 +253,6 @@ def dynamic_import_from_src(src):
 
 if __name__ == "__main__":
     modules = dynamic_import_from_src("players")
-    print(modules)
     
     players = []
     for module in modules:
@@ -237,10 +260,11 @@ if __name__ == "__main__":
         
     print(players)
     
+    # set the starting stacks here
     stacks = [1000 for _ in range(len(players))]
     game = Game(players, stacks, 1)
     
     game.play_game()
     
-    print(game.stacks)
+    print(game.players[0].name)
     
