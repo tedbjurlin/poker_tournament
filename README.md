@@ -1,4 +1,4 @@
-# General Info:
+# General Info
 
 This semester, the Computer Science Club is holding an AI poker tournament. Submitted bots will play Texas Hold'em in tables of up to six bots. As players are knocked out of the tournament, the tables will be consolidated until there is one player left standing. Blind levels, the number of tables, and the starting stacks will be decided after we have a better idea of how many bots are going to be submitted.
 
@@ -10,7 +10,7 @@ The Computer Science Club will be hosting two nights before the tournament where
 
 The tournament will be held on October 16th. We plan to play the tournament live with a visualization. We are still working on getting a time and location.
 
-# Rules:
+# Rules
 
 - Teams are allowed.
 - You are allowed to use code from online sources, as long as it is properly cited. If it is licensed, include a copy of the license notice in a comment in your file.
