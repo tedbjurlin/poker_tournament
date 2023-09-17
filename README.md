@@ -4,11 +4,11 @@ This semester, the Computer Science Club is holding an AI poker tournament. Subm
 
 The tournament is open to all members of the Hendrix Community, and we encourage people of all skill levels to play. All you need is a basic grasp of Python (or a teammate with a basic grasp of Python).
 
-Submissions will be allowed until 11:59pm October 7th, throught [this form](https://forms.office.com/Pages/ResponsePage.aspx?id=jMH2DNLQP0qD0GY9Ygpj0xyfNGkHdu5JkmagYtTIratUOVNOUFBHNkMzSVNSRjBTWlhWVjdVOUVXMy4u).
+Submissions will be allowed until 11:59pm October 14th, through [this form](https://forms.office.com/Pages/ResponsePage.aspx?id=jMH2DNLQP0qD0GY9Ygpj0xyfNGkHdu5JkmagYtTIratUOVNOUFBHNkMzSVNSRjBTWlhWVjdVOUVXMy4u).
 
 The Computer Science Club will be hosting two nights before the tournament where we will be available to answer questions and help with any problems you are having. The dates and times are still tbd.
 
-The tournament will be held sometime the week of October 9th. We plan to play the tournament live with a visualization. We are still working on getting a time and location.
+The tournament will be held on October 16th. We plan to play the tournament live with a visualization. We are still working on getting a time and location.
 
 # Rules:
 
