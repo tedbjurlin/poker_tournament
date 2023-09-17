@@ -1,1 +1,1 @@
-# POKER_TOURNAMENT
+# Hendrix AI Poker Tournament

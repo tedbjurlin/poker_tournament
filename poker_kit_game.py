@@ -131,7 +131,6 @@ class Game:
         hole_cards = [[] for _ in self.players]
         while state.can_deal_hole():
             hole = state.deal_hole()
-            print(hole)
             hole_cards[hole.player_index].append(hole.cards[0])
         
         small_blind_player = ""
@@ -151,9 +150,7 @@ class Game:
             players[i].update(("blind amounts", self.blinds[self.hand_n // 5][0], self.blinds[self.hand_n // 5][1]))
             players[i].update(("blind players", small_blind_player, big_blind_player))
             players[i].update(("hole cards", [Card.from_pokerkit(hole_cards[i][0]), Card.from_pokerkit(hole_cards[i][1])]))
-        
-        print(hole_cards)
-        
+                
         self.run_bets(state, 0)
         
         print(state.stacks)
