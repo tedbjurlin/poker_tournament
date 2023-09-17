@@ -23,7 +23,7 @@ The tournament will be held on October 16th. We plan to play the tournament live
   - pokerkit
   - tensorflow
   - all of Pythons standard libraries and any libraries required by any of the above
-- Bots must be submitted by 11:59pm October 7th.
+- Bots must be submitted by 11:59pm October 14th.
 
 # Library Usage and Bot Specifications
 
