@@ -1,10 +1,10 @@
 # General Info:
 
-This semester, the Computer Science Club is holding an AI poker tournament. Submitted bots will play Texas Hold'em in tables of up to six bots. As players are knocked out of the tournament, the tables will be consolidated until there is one player left standing.s Blind levels, the number of tables, and the starting stacks will be decided after we have a better idea of how many bots are going to be submitted.
+This semester, the Computer Science Club is holding an AI poker tournament. Submitted bots will play Texas Hold'em in tables of up to six bots. As players are knocked out of the tournament, the tables will be consolidated until there is one player left standing. Blind levels, the number of tables, and the starting stacks will be decided after we have a better idea of how many bots are going to be submitted.
 
 The tournament is open to all members of the Hendrix Community, and we encourage people of all skill levels to play. All you need is a basic grasp of Python (or a teammate with a basic grasp of Python).
 
-Submissions will be allowed until 11:59pm October 14th, through [this form](https://forms.office.com/Pages/ResponsePage.aspx?id=jMH2DNLQP0qD0GY9Ygpj0xyfNGkHdu5JkmagYtTIratUOVNOUFBHNkMzSVNSRjBTWlhWVjdVOUVXMy4u).
+Submissions will be allowed until 11:59pm October 14th, through [this form](https://forms.gle/XDTfNqpWw8f5yukz7).
 
 The Computer Science Club will be hosting two nights before the tournament where we will be available to answer questions and help with any problems you are having. The dates and times are still tbd.
 
